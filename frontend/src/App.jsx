@@ -32,9 +32,9 @@ function App() {
     <div className="app">
       <Header />
       <div className="container">
-        <div className="main-content">
-          <CreateEvent />
-          <EventsList />
+      <div className="main-content">
+          <CreateEvent onEventCreated={loadData} />
+          <EventsList currentProfile={currentProfile} onEventUpdated={loadData} />
         </div>
       </div>
     </div>

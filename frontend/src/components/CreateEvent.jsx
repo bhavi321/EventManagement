@@ -61,8 +61,7 @@ function CreateEvent({ onEventCreated }) {
       // Combine date and time
       const startDateTime = dayjs.tz(`${startDate} ${startTime}`, selectedTimezone);
       const endDateTime = dayjs.tz(`${endDate} ${endTime}`, selectedTimezone);
-      console.log("startDateTime: ", startDateTime);
-      console.log("endDateTime: ", endDateTime);
+
       if (endDateTime.isBefore(startDateTime)) {
         alert('End date/time cannot be before start date/time');
         return;
