@@ -1,7 +1,7 @@
 const Event = require("../models/Event");
 const dayjs = require("dayjs");
-const utc = require("dayjs/plugin/utc.js");
-const timezone = require("dayjs/plugin/timezone.js");
+const utc = require("dayjs/plugin/utc");
+const timezone = require("dayjs/plugin/timezone");
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
