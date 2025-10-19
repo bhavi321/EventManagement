@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BACKEND_API_URL = import.meta.env.VITE_API_URL;
+const BACKEND_API_URL = import.meta.env.BACKEND_API_URL;
 
 // User/Profile API
 export const getProfiles = async () => {
