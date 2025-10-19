@@ -7,22 +7,12 @@
 
 .card-title {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   color: #1a1a1a;
   margin-bottom: 20px;
 }
 
-.event-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
 
 .form-label {
   font-size: 14px;
@@ -32,7 +22,7 @@
 
 .form-input,
 .form-select {
-  padding: 10px 12px;
+  padding: 8px;
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 14px;
@@ -48,8 +38,7 @@
 
 .datetime-inputs {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
+  gap: 8px;
 }
 
 .date-input-wrapper,
@@ -58,27 +47,11 @@
 }
 
 .time-input {
-  width: 100px;
+  width: 600px;
 }
 
 .profile-select-wrapper {
   position: relative;
-}
-
-.profile-select-button {
-  width: 100%;
-  padding: 10px 12px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  transition: border-color 0.2s;
-  text-align: left;
 }
 
 .profile-select-button:hover {
@@ -102,25 +75,12 @@
 }
 
 .selected-profiles-header {
-  padding: 12px 16px;
   background: #8b5cf6;
   color: white;
   font-size: 14px;
   font-weight: 500;
 }
 
-.dropdown-search {
-  padding: 12px;
-  border-bottom: 1px solid #eee;
-}
-
-.search-input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-}
 
 .profile-list {
   flex: 1;
@@ -179,29 +139,12 @@
   padding: 6px 12px;
   background: #f3e8ff;
   border: 1px solid #e9d5ff;
-  border-radius: 16px;
   font-size: 13px;
   color: #6b21a8;
 }
 
 .selected-profile-tag svg {
   flex-shrink: 0;
-}
-
-.btn-add-profile-inline {
-  width: 100%;
-  padding: 12px 16px;
-  background: transparent;
-  border: none;
-  border-top: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #8b5cf6;
-  transition: background-color 0.2s;
 }
 
 .btn-add-profile-inline:hover {
@@ -214,20 +157,15 @@
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: background-color 0.2s;
   margin-top: 8px;
 }
 
-.btn-create:hover {
-  background: #7c3aed;
-}
 
 .btn-create:active {
   transform: translateY(1px);
