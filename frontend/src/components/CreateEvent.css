@@ -1,0 +1,174 @@
+.create-event-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+}
+
+
+
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-input,
+.form-select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #8b5cf6;
+}
+
+.datetime-inputs {
+  display: grid;
+  gap: 8px;
+}
+
+.date-input-wrapper,
+.time-input-wrapper {
+  position: relative;
+}
+
+.time-input {
+  width: 600px;
+}
+
+.profile-select-wrapper {
+  position: relative;
+}
+
+.profile-select-button:hover {
+  border-color: #999;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+  overflow: hidden;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-profiles-header {
+  background: #8b5cf6;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+
+.profile-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.profile-item {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.profile-item:hover {
+  background-color: #f5f5f5;
+}
+
+.profile-item.selected {
+  background-color: #f3e8ff;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.profile-item.selected .checkbox {
+  background-color: #8b5cf6;
+  border-color: #8b5cf6;
+}
+
+.selected-profiles-list {
+  padding: 12px;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+.selected-profile-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #f3e8ff;
+  border: 1px solid #e9d5ff;
+  font-size: 13px;
+  color: #6b21a8;
+}
+
+.selected-profile-tag svg {
+  flex-shrink: 0;
+}
+
+.btn-add-profile-inline:hover {
+  background-color: #f5f5f5;
+}
+
+.btn-create {
+  padding: 12px 24px;
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+
+.btn-create:active {
+  transform: translateY(1px);
+}
+
+
