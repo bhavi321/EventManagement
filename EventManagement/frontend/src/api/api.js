@@ -38,3 +38,20 @@ export const createEvent = async (eventData) => {
   const response = await axios.post(`${API_URL}/events`, eventData);
   return response.data;
 };
+
+export const updateEvent = async (id, eventData) => {
+  const response = await axios.put(`${API_URL}/events/${id}`, eventData);
+  return response.data;
+};
+
+export const deleteEvent = async (id) => {
+  const response = await axios.delete(`${API_URL}/events/${id}`);
+  return response.data;
+};
+
+export const getEvent = async (id) => {
+  const response = await axios.get(`${API_URL}/events/${id}`);
+  return response.data;
+};
+
+

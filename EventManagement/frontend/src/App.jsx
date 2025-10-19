@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfiles, setEvents } from './store/store';
-// import { getProfiles, getEvents } from './api/api';
+import { getProfiles, getEvents } from './api/api';
 import Header from './components/Header';
 import CreateEvent from './components/CreateEvent';
-// import EventsList from './components/EventsList';
+import EventsList from './components/EventsList';
 import './App.css';
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
       <div className="container">
         <div className="main-content">
           <CreateEvent />
-          {/* <EventsList currentProfile={currentProfile} onEventUpdated={loadData} /> */}
+          <EventsList />
         </div>
       </div>
     </div>
