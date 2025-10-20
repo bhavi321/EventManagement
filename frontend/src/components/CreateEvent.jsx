@@ -7,6 +7,9 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import './CreateEvent.css';
+import { useDispatch } from 'react-redux';
+import { addProfile } from '../store/store';
+import { createProfile } from '../api/api';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -22,6 +25,11 @@ function CreateEvent({ onEventCreated }) {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const dropdownRef = useRef(null);
+  const dispatch = useDispatch();
+  const [showAddProfile, setShowAddProfile] = useState(false);
+  const [newProfileName, setNewProfileName] = useState('');
+  const [newProfileTimezone, setNewProfileTimezone] = useState('America/New_York');
+  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -97,169 +105,288 @@ function CreateEvent({ onEventCreated }) {
     p?.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleAddProfile = async (e) => {
+    e.preventDefault();
+    if (!newProfileName.trim()) return;
+  
+    try {
+      const profile = await createProfile(newProfileName, newProfileTimezone);
+      dispatch(addProfile(profile));
+      setNewProfileName('');
+      setNewProfileTimezone('America/New_York');
+      setShowAddProfile(false);
+      setShowProfileDropdown(false);
+      toast.success('Profile added successfully!');  // ✅ add this
+    } catch (error) {
+      console.error('Error creating profile:', error);
+      toast.error('Failed to create profile');
+    }
+  };
+
   return (
-    <div className="create-event-card">
-      <h2 className="card-title">Create Event</h2>
-      
-      <form onSubmit={handleSubmit} className="event-form">
-        <div className="form-group">
-          <label className="form-label">Profiles</label>
-          <div className="profile-select-wrapper" ref={dropdownRef}>
-            <button
-              type="button"
-              className="profile-select-button"
-              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-            >
-              <span>
-                {selectedProfiles.length === 0
-                  ? 'Select profiles...'
-                  : `${selectedProfiles.length} profile${selectedProfiles.length > 1 ? 's' : ''} selected`}
-              </span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-          
-            {showProfileDropdown && (
-              <div className="profile-dropdown">
-                {/* {selectedProfiles.length > 0 && (
+     <div className="create-event-card">
+        <h2 className="card-title">Create Event</h2>
+
+        <form onSubmit={handleSubmit} className="event-form">
+           <div className="form-group">
+              <label className="form-label">Profiles</label>
+              <div className="profile-select-wrapper" ref={dropdownRef}>
+                 <button
+                    type="button"
+                    className="profile-select-button"
+                    onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                 >
+                    <span>
+                       {selectedProfiles.length === 0
+                          ? "Select profiles..."
+                          : `${selectedProfiles.length} profile${
+                               selectedProfiles.length > 1 ? "s" : ""
+                            } selected`}
+                    </span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                       <path
+                          d="M4 6L8 10L12 6"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                       />
+                    </svg>
+                 </button>
+
+                 {showProfileDropdown && (
+                    <div className="profile-dropdown">
+                       {/* {selectedProfiles.length > 0 && (
                   <div className="selected-profiles-header">
                     <span>{selectedProfiles.length} profile{selectedProfiles.length > 1 ? 's' : ''} selected</span>
                   </div>
                 )} */}
-                
-                <div className="dropdown-search">
-                  <input
-                    type="text"
-                    placeholder="Search profiles..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="search-input"
-                  />
-                </div>
-                
-                <div className="profile-list">
-                  {filteredProfiles.map(profile => {
-                    const isSelected = selectedProfiles.find(p => p._id === profile._id);
-                    return (
-                      <div
-                        key={profile._id}
-                        className={`profile-item ${isSelected ? 'selected' : ''}`}
-                        onClick={() => handleProfileToggle(profile)}
-                      >
-                        <div className="checkbox">
-                          {isSelected && (
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                              <path d="M10 3L4.5 8.5L2 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          )}
-                        </div>
-                        <span>{profile.name}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-                
-                {selectedProfiles.length > 0 && (
-                  <div className="selected-profiles-list">
-                    {selectedProfiles.map(profile => (
-                      <div key={profile._id} className="selected-profile-tag">
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                          <path d="M9 3L4.5 7.5L2 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        <span>{profile.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                
-                <button
-                  type="button"
-                  className="btn-add-profile-inline"
-                  onClick={() => setShowProfileDropdown(false)}
-                >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M7 2V12M2 7H12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  </svg>
-                  Add Profile
-                </button>
+
+                       <div className="dropdown-search">
+                          <input
+                             type="text"
+                             placeholder="Search profiles..."
+                             value={searchTerm}
+                             onChange={(e) => setSearchTerm(e.target.value)}
+                             className="search-input"
+                          />
+                       </div>
+
+                       {showAddProfile ? (
+                          <div className="add-profile-form">
+                             <input
+                                type="text"
+                                placeholder="Profile name"
+                                value={newProfileName}
+                                onChange={(e) =>
+                                   setNewProfileName(e.target.value)
+                                }
+                                className="profile-input"
+                                autoFocus
+                             />
+                             <select
+                                value={newProfileTimezone}
+                                onChange={(e) =>
+                                   setNewProfileTimezone(e.target.value)
+                                }
+                                className="profile-select"
+                             >
+                                {TIMEZONES.map((tz) => (
+                                   <option key={tz.value} value={tz.value}>
+                                      {tz.label}
+                                   </option>
+                                ))}
+                             </select>
+                             <div className="form-actions">
+                                <button
+                                   onClick={() => {
+                                      setShowAddProfile(false);
+                                      setNewProfileName("");
+                                   }}
+                                   className="btn-cancel"
+                                >
+                                   Cancel
+                                </button>
+                                <button
+                                   onClick={handleAddProfile}
+                                   className="btn-add"
+                                >
+                                   Add
+                                </button>
+                             </div>
+                          </div>
+                       ) : (
+                          <>
+                             <div className="profile-list">
+                                {filteredProfiles.map((profile) => {
+                                   const isSelected = selectedProfiles.find(
+                                      (p) => p._id === profile._id
+                                   );
+                                   return (
+                                      <div
+                                         key={profile._id}
+                                         className={`profile-item ${
+                                            isSelected ? "selected" : ""
+                                         }`}
+                                         onClick={() =>
+                                            handleProfileToggle(profile)
+                                         }
+                                      >
+                                         <div className="checkbox">
+                                            {isSelected && (
+                                               <svg
+                                                  width="12"
+                                                  height="12"
+                                                  viewBox="0 0 12 12"
+                                                  fill="none"
+                                               >
+                                                  <path
+                                                     d="M10 3L4.5 8.5L2 6"
+                                                     stroke="white"
+                                                     strokeWidth="2"
+                                                     strokeLinecap="round"
+                                                     strokeLinejoin="round"
+                                                  />
+                                               </svg>
+                                            )}
+                                         </div>
+                                         <span>{profile.name}</span>
+                                      </div>
+                                   );
+                                })}
+                             </div>
+                             {selectedProfiles.length > 0 && (
+                                <div className="selected-profiles-list">
+                                   {selectedProfiles.map((profile) => (
+                                      <div
+                                         key={profile._id}
+                                         className="selected-profile-tag"
+                                      >
+                                         <svg
+                                            width="12"
+                                            height="12"
+                                            viewBox="0 0 12 12"
+                                            fill="none"
+                                         >
+                                            <path
+                                               d="M9 3L4.5 7.5L2 5"
+                                               stroke="currentColor"
+                                               strokeWidth="2"
+                                               strokeLinecap="round"
+                                               strokeLinejoin="round"
+                                            />
+                                         </svg>
+                                         <span>{profile.name}</span>
+                                      </div>
+                                   ))}
+                                </div>
+                             )}
+                             <button
+                                type="button"
+                                className="btn-add-profile-inline"
+                                onClick={() => setShowAddProfile(true)}
+                             >
+                                <svg
+                                   width="14"
+                                   height="14"
+                                   viewBox="0 0 14 14"
+                                   fill="none"
+                                >
+                                   <path
+                                      d="M7 2V12M2 7H12"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                   />
+                                </svg>
+                                Add Profile
+                             </button>
+                          </>
+                       )}
+                    </div>
+                 )}
               </div>
-            )}
-          </div>
-        </div>
+           </div>
 
-        <div className="form-group">
-          <label className="form-label">Timezone</label>
-          <select
-            value={selectedTimezone}
-            onChange={(e) => setSelectedTimezone(e.target.value)}
-            className="form-select"
-            required
-          >
-            {TIMEZONES.map(tz => (
-              <option key={tz.value} value={tz.value}>{tz.label}</option>
-            ))}
-          </select>
-        </div>
+           <div className="form-group">
+              <label className="form-label">Timezone</label>
+              <select
+                 value={selectedTimezone}
+                 onChange={(e) => setSelectedTimezone(e.target.value)}
+                 className="form-select"
+                 required
+              >
+                 {TIMEZONES.map((tz) => (
+                    <option key={tz.value} value={tz.value}>
+                       {tz.label}
+                    </option>
+                 ))}
+              </select>
+           </div>
 
-        <div className="form-group">
-          <label className="form-label">Start Date & Time</label>
-          <div className="datetime-inputs">
-            <div className="date-input-wrapper">
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="form-input"
-                placeholder="Pick a date"
-                required
-              />
-            </div>
-            <div className="time-input-wrapper">
-              <input
-                type="time"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-                className="form-input time-input"
-                required
-              />
-            </div>
-          </div>
-        </div>
+           <div className="form-group">
+              <label className="form-label">Start Date & Time</label>
+              <div className="datetime-inputs">
+                 <div className="date-input-wrapper">
+                    <input
+                       type="date"
+                       value={startDate}
+                       onChange={(e) => setStartDate(e.target.value)}
+                       className="form-input"
+                       placeholder="Pick a date"
+                       required
+                    />
+                 </div>
+                 <div className="time-input-wrapper">
+                    <input
+                       type="time"
+                       value={startTime}
+                       onChange={(e) => setStartTime(e.target.value)}
+                       className="form-input time-input"
+                       required
+                    />
+                 </div>
+              </div>
+           </div>
 
-        <div className="form-group">
-          <label className="form-label">End Date & Time</label>
-          <div className="datetime-inputs">
-            <div className="date-input-wrapper">
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="form-input"
-                placeholder="Pick a date"
-                required
-              />
-            </div>
-            <div className="time-input-wrapper">
-              <input
-                type="time"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-                className="form-input time-input"
-                required
-              />
-            </div>
-          </div>
-        </div>
+           <div className="form-group">
+              <label className="form-label">End Date & Time</label>
+              <div className="datetime-inputs">
+                 <div className="date-input-wrapper">
+                    <input
+                       type="date"
+                       value={endDate}
+                       onChange={(e) => setEndDate(e.target.value)}
+                       className="form-input"
+                       placeholder="Pick a date"
+                       required
+                    />
+                 </div>
+                 <div className="time-input-wrapper">
+                    <input
+                       type="time"
+                       value={endTime}
+                       onChange={(e) => setEndTime(e.target.value)}
+                       className="form-input time-input"
+                       required
+                    />
+                 </div>
+              </div>
+           </div>
 
-        <button type="submit" className="btn-create">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M8 3V13M3 8H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-          Create Event
-        </button>
-      </form>
-    </div>
+           <button type="submit" className="btn-create">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                 <path
+                    d="M8 3V13M3 8H13"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                 />
+              </svg>
+              Create Event
+           </button>
+        </form>
+     </div>
   );
 }
 
