@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentProfile, addProfile, updateProfile } from '../store/store';
+import { toast } from 'react-toastify';
 import { createProfile, updateProfileTimezone } from '../api/api';
 import { TIMEZONES, getTimezoneLabel } from '../utils/timezones';
 import './Header.css';
@@ -42,7 +43,7 @@ function Header() {
       dispatch(setCurrentProfile(profile));
     } catch (error) {
       console.error('Error creating profile:', error);
-      alert('Failed to create profile');
+      toast.error('Failed to create profile');
     }
   };
 

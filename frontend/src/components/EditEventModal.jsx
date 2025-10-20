@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { updateEvent } from '../api/api';
+import { toast } from 'react-toastify';
 import { TIMEZONES } from '../utils/timezones';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -56,7 +57,7 @@ function EditEventModal({ event, profiles, onClose, onUpdate }) {
     e.preventDefault();
 
     if (selectedProfiles.length === 0) {
-      alert('Please select at least one profile');
+      toast.warn('Please select at least one profile');
       return;
     }
 
@@ -65,7 +66,7 @@ function EditEventModal({ event, profiles, onClose, onUpdate }) {
       const endDateTime = dayjs.tz(`${endDate} ${endTime}`, selectedTimezone);
 
       if (endDateTime.isBefore(startDateTime)) {
-        alert('End date/time cannot be before start date/time');
+        toast.error('End date/time cannot be before start date/time');
         return;
       }
 
@@ -78,10 +79,10 @@ function EditEventModal({ event, profiles, onClose, onUpdate }) {
 
       await updateEvent(event._id, eventData);
       onUpdate();
-      alert('Event updated successfully!');
+      toast.success('Event updated successfully!');
     } catch (error) {
       console.error('Error updating event:', error);
-      alert('Failed to update event');
+      toast.error('Failed to update event');
     }
   };
 

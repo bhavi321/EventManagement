@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { createEvent } from '../api/api';
 import { TIMEZONES, getTimezoneLabel } from '../utils/timezones';
@@ -48,12 +49,12 @@ function CreateEvent({ onEventCreated }) {
     e.preventDefault();
 
     if (selectedProfiles.length === 0) {
-      alert('Please select at least one profile');
+      toast.warn('Please select at least one profile');
       return;
     }
 
     if (!startDate || !endDate) {
-      alert('Please select start and end dates');
+      toast.warn('Please select start and end dates');
       return;
     }
 
@@ -63,7 +64,7 @@ function CreateEvent({ onEventCreated }) {
       const endDateTime = dayjs.tz(`${endDate} ${endTime}`, selectedTimezone);
 
       if (endDateTime.isBefore(startDateTime)) {
-        alert('End date/time cannot be before start date/time');
+        toast.error('End date/time cannot be before start date/time');
         return;
       }
 
@@ -85,10 +86,10 @@ function CreateEvent({ onEventCreated }) {
       setEndTime('09:00');
       
       onEventCreated();
-      alert('Event created successfully!');
+      toast.success('Event created successfully!');
     } catch (error) {
       console.error('Error creating event:', error);
-      alert('Failed to create event');
+      toast.error('Failed to create event');
     }
   };
 

@@ -6,6 +6,8 @@ import Header from './components/Header';
 import CreateEvent from './components/CreateEvent';
 import EventsList from './components/EventsList';
 import './App.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -37,6 +39,7 @@ function App() {
           <EventsList currentProfile={currentProfile} onEventUpdated={loadData} />
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
     </div>
   );
 }
