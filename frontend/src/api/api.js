@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+// User/Profile API
 export const getProfiles = async () => {
   const response = await axios.get(`${API_URL}/users`);
   return response.data;
